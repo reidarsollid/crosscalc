@@ -29,17 +29,28 @@ func main() {
 
 	sl := slices.TextToIntSlices(txt)
 	max := 0
-	for i, v := range sl {
+	for _, v := range sl {
 		if max < inRow(v) {
 			max = inRow(v)
 		}
-		fmt.Printf("Index %v Value %v\n", i, inRow(v))
+		//fmt.Printf("Index %v Value %v\n", i, inRow(v))
 	}
-	fmt.Printf("MAx producct is %v", max)
+	fmt.Printf("MAx producct row is %v\n", max)
+	maxR := sumRightCross(sl...)
+	fmt.Printf("MAx producct right is %v\n", maxR)
+	maxL := sumLeftCross(sl...)
+	fmt.Printf("MAx producct left is %v\n", maxL)
+	if max < maxR {
+		max = maxR
+	}
+	if max < maxL {
+		max = maxL
+	}
+	fmt.Printf("MAx producct row is %v\n", max)
 }
 
 func inRow(slice []int) int {
-	lent := len(slice) - 4
+	lent := len(slice) - 3
 	max := 0
 	for i := 0; i < lent; i++ {
 		sum := sumSlice(slice[i], slice[i+1], slice[i+2], slice[i+3])
@@ -50,20 +61,65 @@ func inRow(slice []int) int {
 	return max
 }
 
-//func sumRightCross(slices...[]int){
+/*
+ [1][1]  [1][2]
+       []2[2] [2][3]
+ 			  [3][3] [3][4]
+					[4][4] [4]5[]
+*/
+func sumRightCross(slices ...[]int) int {
+	l := len(slices) - 3
+	max := 0
+	for j := 0; j < l; j++ {
+		for i := 0; i < l; i++ {
+			//fmt.Printf("[%v][%v] [%v][%v] [%v][%v] [%v][%v]\n", i, i, i+1, i+1, i+2, i+2, i+3, i+3)
+			sum := sumSlice(slices[j][i], slices[j+1][i+1], slices[j+2][i+2], slices[j+3][i+3])
+			if max < sum {
+				max = sum
+			}
+		}
+	}
+	return max
+}
+func sumLeftCross(slices ...[]int) int {
+	l := len(slices) - 3
+	max := 0
+	for j := 0; j < l; j++ {
+		for i := 0; i < l; i++ {
+			//fmt.Printf("[%v][%v] [%v][%v] [%v][%v] [%v][%v]\n", i, i, i+1, i+1, i+2, i+2, i+3, i+3)
+			sum := sumSlice(slices[i][i+3], slices[j+1][i+2], slices[j+2][i+1], slices[j+3][i])
+			if max < sum {
+				max = sum
+			}
+		}
+	}
+	return max
+}
 
-//}
-
-//func sumLeftCross(slices...[]int){
-
-//}
+/*func sumLeftCross(slices ...[]int) int {
+	l := len(slices) -1
+	fmt.Println(l)
+	max := 0
+	for j := l; j > 2; j-- {
+		fmt.Println(j)
+		for i := l; i > 2; i-- {
+			//fmt.Printf("L %v I %v\n", l, i)
+			fmt.Printf("[%v][%v] [%v][%v] [%v][%v] [%v][%v]\n", j, i, j-1, i-1, j-2, i-2, j-3, i-3)
+			sum := sumSlice(slices[j][i], slices[j-1][i-1], slices[j-2][i-2], slices[j-3][i-3])
+			if max < sum {
+				max = sum
+			}
+		}
+	}
+	return max
+}*/
 
 func sumSlice(ints ...int) int {
 	if containsZero(ints...) {
 		return 0
 	}
 	retval := ints[0]
-	for i := 1; i < 3; i++ {
+	for i := 1; i < 4; i++ {
 		retval *= ints[i]
 	}
 	return retval
