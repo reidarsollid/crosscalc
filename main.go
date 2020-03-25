@@ -29,18 +29,14 @@ func main() {
 
 	sl := slices.TextToIntSlices(txt)
 	max := 0
-	for _, v := range sl {
-		if max < inRow(v) {
-			max = inRow(v)
-		}
-	}
-	fmt.Printf("MAx producct row is %v\n", max)
 	sum := 0
-	max, sum = corissCrossProducts(sumRightCross, max, sl...)
+	max, sum = crissCrossProducts(productRow, max, sl...)
+	fmt.Printf("Sum producct rows is %v\n", sum)
+	max, sum = crissCrossProducts(productRightCross, max, sl...)
 	fmt.Printf("Sum producct right is %v\n", sum)
-	max, sum = corissCrossProducts(sumLeftCross, max, sl...)
+	max, sum = crissCrossProducts(productLeftCross, max, sl...)
 	fmt.Printf("Sum producct left is %v\n", sum)
-	max, sum = corissCrossProducts(productDiagonal, max, sl...)
+	max, sum = crissCrossProducts(productDiagonal, max, sl...)
 	fmt.Printf("Sum producct diag is %v\n", sum)
 	fmt.Printf("Max producct is %v\n", max)
 }
@@ -56,9 +52,18 @@ func inRow(slice []int) int {
 	lent := len(slice) - 3
 	max := 0
 	for i := 0; i < lent; i++ {
-		sum := sumSlice(slice[i], slice[i+1], slice[i+2], slice[i+3])
+		sum := productSlice(slice[i], slice[i+1], slice[i+2], slice[i+3])
 		if max < sum {
 			max = sum
+		}
+	}
+	return max
+}
+func productRow(slice...[]int) int{
+	max := 0
+	for _, v := range slice {
+		if max < inRow(v) {
+			max = inRow(v)
 		}
 	}
 	return max
@@ -69,7 +74,7 @@ func productDiagonal(slices ...[]int) int {
 	max := 0
 	for j := 0; j < leng; j = j + 4 {
 		for i := 0; i < leng; i++ {
-			sum := sumSlice(slices[j][i], slices[j+1][i], slices[j+2][i], slices[j+3][i])
+			sum := productSlice(slices[j][i], slices[j+1][i], slices[j+2][i], slices[j+3][i])
 			if max < sum {
 				max = sum
 			}
@@ -77,12 +82,12 @@ func productDiagonal(slices ...[]int) int {
 	}
 	return max
 }
-func sumRightCross(slices ...[]int) int {
+func productRightCross(slices ...[]int) int {
 	l := len(slices) - 3
 	max := 0
 	for j := 0; j < l; j++ {
 		for i := 0; i < l; i++ {
-			sum := sumSlice(slices[j][i], slices[j+1][i+1], slices[j+2][i+2], slices[j+3][i+3])
+			sum := productSlice(slices[j][i], slices[j+1][i+1], slices[j+2][i+2], slices[j+3][i+3])
 			if max < sum {
 				max = sum
 			}
@@ -93,17 +98,17 @@ func sumRightCross(slices ...[]int) int {
 
 type findProduct func(slices ...[]int) int
 
-func corissCrossProducts(fn findProduct, max int, slices ...[]int) (int, int) {
+func crissCrossProducts(fn findProduct, max int, slices ...[]int) (int, int) {
 	sum := fn(slices...)
 	return findMax(sum, max), sum
 }
 
-func sumLeftCross(slices ...[]int) int {
+func productLeftCross(slices ...[]int) int {
 	l := len(slices) - 3 //Four across and arrays start at 0, so length - 4 to go
 	max := 0
 	for j := 0; j < l; j++ {
 		for i := 0; i < l; i++ {
-			sum := sumSlice(slices[i][i+3], slices[j+1][i+2], slices[j+2][i+1], slices[j+3][i])
+			sum := productSlice(slices[i][i+3], slices[j+1][i+2], slices[j+2][i+1], slices[j+3][i])
 			if max < sum {
 				max = sum
 			}
@@ -112,7 +117,7 @@ func sumLeftCross(slices ...[]int) int {
 	return max
 }
 
-func sumSlice(ints ...int) int {
+func productSlice(ints ...int) int {
 	if containsZero(ints...) {
 		return 0
 	}
