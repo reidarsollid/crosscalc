@@ -99,7 +99,7 @@ func corissCrossProducts(fn findProduct, max int, slices ...[]int) (int, int) {
 }
 
 func sumLeftCross(slices ...[]int) int {
-	l := len(slices) - 3
+	l := len(slices) - 3 //Four across and arrays start at 0, so length - 4 to go
 	max := 0
 	for j := 0; j < l; j++ {
 		for i := 0; i < l; i++ {
