@@ -60,6 +60,11 @@ func inRow(slice []int) int {
 	return max
 }
 
+func productDiagonal(slices...[]int) int {
+	leng := len(slices[0])
+	fmt.Println(leng)
+	return 0;
+}
 func sumRightCross(slices ...[]int) int {
 	l := len(slices) - 3
 	max := 0
