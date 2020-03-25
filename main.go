@@ -35,17 +35,21 @@ func main() {
 		}
 	}
 	fmt.Printf("MAx producct row is %v\n", max)
-	maxR := sumRightCross(sl...)
-	fmt.Printf("MAx producct right is %v\n", maxR)
-	maxL := sumLeftCross(sl...)
-	fmt.Printf("MAx producct left is %v\n", maxL)
-	if max < maxR {
-		max = maxR
+	sum := 0
+	max, sum = corissCrossProducts(sumRightCross, max, sl...)
+	fmt.Printf("Sum producct right is %v\n", sum)
+	max, sum = corissCrossProducts(sumLeftCross, max, sl...)
+	fmt.Printf("Sum producct left is %v\n", sum)
+	max, sum = corissCrossProducts(productDiagonal, max, sl...)
+	fmt.Printf("Sum producct diag is %v\n", sum)
+	fmt.Printf("Max producct is %v\n", max)
+}
+
+func findMax(first int, second int) int {
+	if first > second {
+		return first
 	}
-	if max < maxL {
-		max = maxL
-	}
-	fmt.Printf("MAx producct row is %v\n", max)
+	return second
 }
 
 func inRow(slice []int) int {
@@ -60,10 +64,18 @@ func inRow(slice []int) int {
 	return max
 }
 
-func productDiagonal(slices...[]int) int {
+func productDiagonal(slices ...[]int) int {
 	leng := len(slices[0])
-	fmt.Println(leng)
-	return 0;
+	max := 0
+	for j := 0; j < leng; j = j + 4 {
+		for i := 0; i < leng; i++ {
+			sum := sumSlice(slices[j][i], slices[j+1][i], slices[j+2][i], slices[j+3][i])
+			if max < sum {
+				max = sum
+			}
+		}
+	}
+	return max
 }
 func sumRightCross(slices ...[]int) int {
 	l := len(slices) - 3
@@ -78,6 +90,14 @@ func sumRightCross(slices ...[]int) int {
 	}
 	return max
 }
+
+type findProduct func(slices ...[]int) int
+
+func corissCrossProducts(fn findProduct, max int, slices ...[]int) (int, int) {
+	sum := fn(slices...)
+	return findMax(sum, max), sum
+}
+
 func sumLeftCross(slices ...[]int) int {
 	l := len(slices) - 3
 	max := 0
@@ -96,8 +116,9 @@ func sumSlice(ints ...int) int {
 	if containsZero(ints...) {
 		return 0
 	}
+	l := len(ints)
 	retval := ints[0]
-	for i := 1; i < 4; i++ {
+	for i := 1; i < l; i++ {
 		retval *= ints[i]
 	}
 	return retval
