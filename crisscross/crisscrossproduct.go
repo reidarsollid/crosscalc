@@ -2,12 +2,11 @@ package crisscross
 
 type findProduct func(slices ...[]int) int
 
-func CrissCrossProducts(fn findProduct, max int, slices ...[]int) (int, int) {
-	sum := fn(slices...)
-	return findMax(sum, max), sum
+func CrissCrossProducts(fn findProduct, ch chan int, slices ...[]int) {
+	ch <- fn(slices...)
 }
 
-func findMax(first int, second int) int {
+func FindMax(first int, second int) int {
 	if first > second {
 		return first
 	}

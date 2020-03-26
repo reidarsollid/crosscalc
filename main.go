@@ -29,19 +29,17 @@ const txt = "08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08\n" +
 
 func main() {
 	sl := slices.TextToIntSlices(txt)
-	max := 0
-	sum := 0
-	max, sum = c.CrissCrossProducts(c.ProductRow, max, sl...)
-	fmt.Printf("Producct rows is %v\n", sum)
-	max, sum = c.CrissCrossProducts(c.ProductRightCross, max, sl...)
-	fmt.Printf("Producct right is %v\n", sum)
-	max, sum = c.CrissCrossProducts(c.ProductLeftCross, max, sl...)
-	fmt.Printf("Producct left is %v\n", sum)
-	max, sum = c.CrissCrossProducts(c.ProductDiagonal, max, sl...)
-	fmt.Printf("Producct diag is %v\n", sum)
-	fmt.Printf("Max producct is %v\n", max)
+
+	var ch = make(chan int, 4)
+	go c.CrissCrossProducts(c.ProductRow, ch, sl...)
+	go c.CrissCrossProducts(c.ProductRightCross, ch, sl...)
+	go c.CrissCrossProducts(c.ProductLeftCross, ch, sl...)
+	go c.CrissCrossProducts(c.ProductDiagonal, ch, sl...)
+
+	var maxProduct, product int
+	for i := 0; i < 4; i++ {
+		product = <-ch
+		maxProduct = c.FindMax(product, maxProduct)
+	}
+	fmt.Printf("Max product is : %v\n", maxProduct)
 }
-
-
-
-
