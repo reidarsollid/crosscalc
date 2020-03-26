@@ -32,13 +32,13 @@ func main() {
 	max := 0
 	sum := 0
 	max, sum = c.CrissCrossProducts(c.ProductRow, max, sl...)
-	fmt.Printf("Sum producct rows is %v\n", sum)
+	fmt.Printf("Producct rows is %v\n", sum)
 	max, sum = c.CrissCrossProducts(c.ProductRightCross, max, sl...)
-	fmt.Printf("Sum producct right is %v\n", sum)
+	fmt.Printf("Producct right is %v\n", sum)
 	max, sum = c.CrissCrossProducts(c.ProductLeftCross, max, sl...)
-	fmt.Printf("Sum producct left is %v\n", sum)
+	fmt.Printf("Producct left is %v\n", sum)
 	max, sum = c.CrissCrossProducts(c.ProductDiagonal, max, sl...)
-	fmt.Printf("Sum producct diag is %v\n", sum)
+	fmt.Printf("Producct diag is %v\n", sum)
 	fmt.Printf("Max producct is %v\n", max)
 }
 

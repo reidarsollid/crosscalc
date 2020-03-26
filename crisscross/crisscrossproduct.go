@@ -14,7 +14,6 @@ func findMax(first int, second int) int {
 	return second
 }
 
-
 func productSlice(ints ...int) int {
 	if containsZero(ints...) {
 		return 0
@@ -36,7 +35,6 @@ func containsZero(ints ...int) bool {
 	return false
 }
 
-
 func productOneRow(slice []int) int {
 	lent := len(slice) - 3
 	max := 0
@@ -48,7 +46,7 @@ func productOneRow(slice []int) int {
 	}
 	return max
 }
-func ProductRow(slice...[]int) int{
+func ProductRow(slice ...[]int) int {
 	max := 0
 	for _, v := range slice {
 		if max < productOneRow(v) {
@@ -72,14 +70,12 @@ func ProductRightCross(slices ...[]int) int {
 	return max
 }
 
-
-
 func ProductLeftCross(slices ...[]int) int {
-	l := len(slices) - 3 //Four across and arrays start at 0, so length - 4 to go
+	l := len(slices) - 3
 	max := 0
 	for j := 0; j < l; j++ {
 		for i := 0; i < l; i++ {
-			sum := productSlice(slices[i][i+3], slices[j+1][i+2], slices[j+2][i+1], slices[j+3][i])
+			sum := productSlice(slices[j][i+3], slices[j+1][i+2], slices[j+2][i+1], slices[j+3][i])
 			if max < sum {
 				max = sum
 			}
@@ -89,10 +85,10 @@ func ProductLeftCross(slices ...[]int) int {
 }
 
 func ProductDiagonal(slices ...[]int) int {
-	leng := len(slices[0])
+	leng := len(slices[0]) - 4
 	max := 0
-	for j := 0; j < leng; j = j + 4 {
-		for i := 0; i < leng; i++ {
+	for j := 0; j < leng; j++ {
+		for i := range slices[j] {
 			sum := productSlice(slices[j][i], slices[j+1][i], slices[j+2][i], slices[j+3][i])
 			if max < sum {
 				max = sum
@@ -101,4 +97,3 @@ func ProductDiagonal(slices ...[]int) int {
 	}
 	return max
 }
-
