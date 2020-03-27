@@ -81,15 +81,18 @@ func TestProductRow(t *testing.T) {
 }
 
 func TestCrissCrossProducts(t *testing.T) {
-	max := 0
-	product := 0
-	max, product = CrissCrossProducts(ProductRow, max, all...)
-	assert.Equal(t, product, int(math.Pow(4, 4)))
-	max, product = CrissCrossProducts(ProductLeftCross, max, all...)
-	assert.Equal(t, product, int(math.Pow(3, 4)))
-	max, product = CrissCrossProducts(ProductRightCross, max, all...)
-	assert.Equal(t, product, int(math.Pow(6, 4)))
-	max, product = CrissCrossProducts(ProductDiagonal, max, all...)
-	assert.Equal(t, product, int(math.Pow(8, 4)))
+	expected := int(math.Pow(8, 4))
 
+	var ch = make(chan int, 4)
+	go CrissCrossProducts(ProductRow, ch, all...)
+	go CrissCrossProducts(ProductRightCross, ch, all...)
+	go CrissCrossProducts(ProductLeftCross, ch, all...)
+	go CrissCrossProducts(ProductDiagonal, ch, all...)
+
+	var actual, product int
+	for i := 0; i < 4; i++ {
+		product = <-ch
+		actual = FindMax(product, actual)
+	}
+	assert.Equal(t, actual, expected)
 }
