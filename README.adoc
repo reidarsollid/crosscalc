@@ -1,0 +1,10 @@
+:gitplant: http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/reidarsollid/crosscalc/master/
+= crosscalc
+
+Programming task DEFA
+
+== To run
+
+`go run crosscalc`
+
+image::{gitplant}/test.puml[test]
