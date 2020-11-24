@@ -1,4 +1,4 @@
-:gitplant: http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/reidarsollid/crosscalc/master/
+image::http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/reidarsollid/crosscalc/master/master/test.puml[test]
 = crosscalc
 
 Programming task DEFA
@@ -6,5 +6,3 @@ Programming task DEFA
 == To run
 
 `go run crosscalc`
-
-image::{gitplant}/test.puml[test]
